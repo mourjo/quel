@@ -114,3 +114,35 @@
          "SELECT TOP 20 * FROM data ;"))
   ;; ->  "SELECT TOP 20 * FROM data;"
   )
+
+
+(deftest additional-tests
+  (is (= (gen-query  "postgres" fields {"where" [">" ["field" 4] 35]})
+         "SELECT * FROM data WHERE \"age\" > 35 ;"))
+
+  (is (= (gen-query  "mysql" fields {"where" [">" ["field" 4] 35]})
+         "SELECT * FROM data WHERE \"age\" > 35 ;"))
+
+  (is (= (gen-query  "sqlserver" fields {"where" [">" ["field" 4] 35]})
+         "SELECT * FROM data WHERE `age` > 35 ;"))
+
+  (is (= (gen-query  "postgres" fields {"where" [">" ["field" 4] 35]
+                                        "limit" 20})
+         "SELECT * FROM data WHERE \"age\" > 35 LIMIT 20 ;"))
+
+  (is (= (gen-query  "mysql" fields {"where" [">" ["field" 4] 35]
+                                     "limit" 20})
+         "SELECT * FROM data WHERE \"age\" > 35 LIMIT 20 ;"))
+
+  (is (= (gen-query  "sqlserver" fields {"where" [">" ["field" 4] 35]
+                                         "limit" 20})
+         "SELECT TOP 20 * FROM data WHERE `age` > 35 ;"))
+
+  (is (= (gen-query  "postgres" fields {"limit" 20})
+         "SELECT * FROM data LIMIT 20 ;"))
+
+  (is (= (gen-query  "mysql" fields {"limit" 20})
+         "SELECT * FROM data LIMIT 20 ;"))
+
+  (is (= (gen-query  "sqlserver" fields {"limit" 20})
+         "SELECT TOP 20 * FROM data ;")))

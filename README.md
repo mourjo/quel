@@ -4,9 +4,39 @@ A Clojure library designed to generate SQL strings for different dialects.
 
 ## Usage
 
-## Notes
+This uses [Leiningen](https://leiningen.org/#install) which needs to be installed to build
+this project.
 
-1. This program follows the specification in the resources directory (downloaded from
+This can be run by starting a repl and calling the `generate-sql` function:
+
+```shell
+quel.core=> (def fields
+       #_=>   {1 "id"
+       #_=>    2 "name"
+       #_=>    3 "date_joined"
+       #_=>    4 "age"})
+#'quel.core/fields
+quel.core=>
+
+quel.core=> (generate-sql "postgres" fields {"where" ["=" ["field" 3] nil]})
+"SELECT * FROM data WHERE \"date_joined\" IS NULL ;"
+```
+
+An utility has been provided to run this via shell script -- ensure fields have string
+encoded integer keys and all keys are syntax quoted:
+
+```shell
+lein run "sqlserver" "{\"1\": \"id\", \"2\": \"name\"}" "{\"where\": [\"=\", [\"field\", 2], \"cam\"], \"limit\": 10}"
+SELECT TOP 10 * FROM data WHERE `name` = 'cam' ;
+```
+
+Tests written [here](test/quel/core_test.clj) has more examples calling the top level
+function.
+
+## Implementation Notes
+
+1. This program follows the specification in the [resources
+   directory](resources/problem_statement.md) (downloaded from
    [here](https://gist.github.com/salsakran/73eabd4943eccc397a2af618789a197a) on 12 June
    2021.
 2. Validation is not part of this library, it assumes the input is valid. No guarantee on
@@ -23,7 +53,6 @@ A Clojure library designed to generate SQL strings for different dialects.
    And x, y, z can be <field> | <number> | <string> | nil
    So the result is (note that y and z are fields and not scalars):
    x IN (y, z)
-
    Similarly, the specification allows for is-empty to be applied to scalars
    // arg ::= <field> | <number> | <string> | nil
    ["is-empty", <arg>] // field IS NULL
@@ -34,4 +63,29 @@ A Clojure library designed to generate SQL strings for different dialects.
 7. Mistake in example (missing commas in IN clause)
    generateSql( "postgres", fields, {"where": ["=", ["field", 4], 25, 26, 27]})
    // -> "SELECT * FROM data WHERE date_joined IN (25, 26, 27)"
-8.
+
+
+## Test coverage
+```shell
+|------------+---------+---------|
+|  Namespace | % Forms | % Lines |
+|------------+---------+---------|
+|  quel.core |  100.00 |  100.00 |
+| quel.field |   87.27 |   93.75 |
+| quel.limit |  100.00 |  100.00 |
+| quel.query |   75.15 |   78.38 |
+| quel.value |   94.12 |  100.00 |
+| quel.where |   80.31 |   80.70 |
+|------------+---------+---------|
+|  ALL FILES |   81.74 |   84.85 |
+|------------+---------+---------|
+```
+
+## Versions and compatibility
+This has been tested and developed on, so other versions may not work:
+
+```
+REPL-y 0.4.4, nREPL 0.8.3
+Clojure 1.10.1
+OpenJDK 64-Bit Server VM 15.0.2+7
+```

@@ -9,5 +9,8 @@
                  [log4j/log4j "1.2.17"]
                  [org.slf4j/slf4j-log4j12 "1.7.30"]
                  [com.stuartsierra/component "1.0.0"]
-                 [org.clojure/core.match "1.0.0"]]
+                 [org.clojure/core.match "1.0.0"]
+                 [cheshire "5.10.0"]]
+  :plugins [[lein-cloverage "1.2.2"]]
+  :main quel.core
   :repl-options {:init-ns quel.core})

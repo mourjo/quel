@@ -27,4 +27,5 @@ A Clojure library designed to generate SQL strings for different dialects.
    Similarly, the specification allows for is-empty to be applied to scalars
    // arg ::= <field> | <number> | <string> | nil
    ["is-empty", <arg>] // field IS NULL
-5.
+5. NOT follows [this](https://www.w3schools.com/sql/sql_and_or.asp) specification.
+6.

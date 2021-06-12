@@ -3,6 +3,7 @@
             [quel.value :as qv]
             [clojure.string :as cs]))
 
+
 (defn- dispatch-where
   [ctx [op & _]]
   (keyword op))
@@ -69,3 +70,20 @@
 (defmethod gen-where :is-not-empty
   [ctx [_ field]]
   (format "%s IS NOT NULL" (qf/gen-field ctx field)))
+
+
+(defmethod gen-where :not
+  [ctx [_ sub-query]]
+  (format "NOT (%s)" (gen-where ctx sub-query)))
+
+
+(defmethod gen-where :and
+  [ctx [_ & sub-queries]]
+  (format "(%s)"
+          (cs/join ") AND (" (map (partial gen-where ctx) sub-queries))))
+
+
+(defmethod gen-where :or
+  [ctx [_ & sub-queries]]
+  (format "(%s)"
+          (cs/join ") OR (" (map (partial gen-where ctx) sub-queries))))

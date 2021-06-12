@@ -16,8 +16,8 @@
 (defmethod gen-where :>
   [ctx [_ left right]]
   (format "%s > %s"
-          (qf/gen-field left)
-          (qf/gen-field right)))
+          (qf/gen-field ctx left)
+          (qf/gen-field ctx right)))
 
 (defmethod gen-where :<
   [ctx [_ left right]]
@@ -40,10 +40,16 @@
 
 (defmethod gen-where :=
   [ctx [_ & args]]
-  (if (<= (count args) 2)
+  (cond
+    (and (<= (count args) 2) (some nil? args))
+    (gen-where ctx [:is-empty (first args)])
+
+    (<= (count args) 2)
     (format "%s = %s"
             (qf/gen-field ctx (first args))
             (qf/gen-field ctx (second args)))
+
+    :else
     (let [fields (map (partial qf/gen-field ctx) args)]
       (format "%s IN (%s)"
               (first fields)
@@ -52,10 +58,17 @@
 
 (defmethod gen-where :!=
   [ctx [_ & args]]
-  (if (<= (count args) 2)
-    (format "%s != %s"
+
+  (cond
+    (and (<= (count args) 2) (some nil? args))
+    (gen-where ctx [:is-not-empty (first args)])
+
+    (<= (count args) 2)
+    (format "%s <> %s"
             (qf/gen-field ctx (first args))
             (qf/gen-field ctx (second args)))
+
+    :else
     (let [fields (map (partial qf/gen-field ctx) args)]
       (format "%s NOT IN (%s)"
               (first fields)

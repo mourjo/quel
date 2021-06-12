@@ -28,4 +28,7 @@ A Clojure library designed to generate SQL strings for different dialects.
    // arg ::= <field> | <number> | <string> | nil
    ["is-empty", <arg>] // field IS NULL
 5. NOT follows [this](https://www.w3schools.com/sql/sql_and_or.asp) specification.
-6.
+6. Mistake in example (should be age):
+   generateSql( "postgres", fields, {"where": ["=", ["field", 4], 25, 26, 27]})
+   // -> "SELECT * FROM data WHERE date_joined IN (25, 26, 27)"
+7.

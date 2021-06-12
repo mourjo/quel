@@ -87,3 +87,8 @@
   [ctx [_ & sub-queries]]
   (format "(%s)"
           (cs/join ") OR (" (map (partial gen-where ctx) sub-queries))))
+
+
+(defmethod gen-where :default
+  [ctx _]
+  "")

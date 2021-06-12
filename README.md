@@ -1,22 +1,15 @@
 # quel
 
-A Clojure library designed to ... well, that part is up to you.
+A Clojure library designed to generate SQL strings for different dialects.
 
 ## Usage
 
-FIXME
+## Notes
 
-## License
+1. Validation is not part of this library, it assumes the input is valid.
 
-Copyright © 2021 FIXME
-
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License 2.0 which is available at
-http://www.eclipse.org/legal/epl-2.0.
-
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the Eclipse
-Public License, v. 2.0 are satisfied: GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or (at your
-option) any later version, with the GNU Classpath Exception which is available
-at https://www.gnu.org/software/classpath/license.html.
+2. Only the information contained in the problem statement was considered, an extensive
+   research of the SQL standard was not done. That is, statements like "all the
+   implications that has" has not been extensively tested as this is only a toy
+   example. Care has been taken that the solution however is extensible to add all such
+   exceptional scalar case handlings in one place.

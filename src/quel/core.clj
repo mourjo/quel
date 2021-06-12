@@ -1,19 +1,18 @@
 (ns quel.core
-  (:require [clojure.walk :as cw]))
+  (:require [clojure.walk :as cw]
+            [quel.limit :as ql]))
 
 
 
 (defn gen-where
-  [ctx clause])
+  [ctx clause]
+  "")
 
-
-(defn gen-limit
-  [ctx clause])
 
 
 (defn gen-query
   [ctx query]
-  (let [limit-clause (gen-limit ctx (:limit query))
+  (let [limit-clause (ql/gen-limit ctx (:limit query))
         where-clause (gen-where ctx (:where query))]
     (case (:dialect ctx)
       :postgres (format "SELECT * FROM data WHERE %s %s" where-clause limit-clause)

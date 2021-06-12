@@ -1,4 +1,4 @@
-# quel
+# quel [![Clojure CI](https://github.com/mourjo/quel/actions/workflows/clojure.yml/badge.svg?branch=main)](https://github.com/mourjo/quel/actions/workflows/clojure.yml)
 
 A Clojure library designed to generate SQL strings for different dialects.
 
@@ -67,12 +67,12 @@ function.
    ```
    generateSql( "postgres", fields, {"where": ["=", ["field", 4], 25, 26, 27]})
    // -> "SELECT * FROM data WHERE date_joined IN (25, 26, 27)"
-```
+   ```
 7. Mistake in example (missing commas in IN clause)
-```
-generateSql( "postgres", fields, {"where": ["=", ["field", 4], 25, 26, 27]})
-// -> "SELECT * FROM data WHERE date_joined IN (25, 26, 27)"
-```
+   ```
+   generateSql( "postgres", fields, {"where": ["=", ["field", 4], 25, 26, 27]})
+   // -> "SELECT * FROM data WHERE date_joined IN (25, 26, 27)"
+   ```
 
 
 ## Test coverage

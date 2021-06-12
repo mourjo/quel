@@ -59,3 +59,13 @@
       (format "%s NOT IN (%s)"
               (first fields)
               (cs/join "," (rest fields))))))
+
+
+(defmethod gen-where :is-empty
+  [ctx [_ field]]
+  (format "%s IS NULL" (qf/gen-field ctx field)))
+
+
+(defmethod gen-where :is-not-empty
+  [ctx [_ field]]
+  (format "%s IS NOT NULL" (qf/gen-field ctx field)))

@@ -31,4 +31,7 @@ A Clojure library designed to generate SQL strings for different dialects.
 6. Mistake in example (should be age):
    generateSql( "postgres", fields, {"where": ["=", ["field", 4], 25, 26, 27]})
    // -> "SELECT * FROM data WHERE date_joined IN (25, 26, 27)"
-7.
+7. Mistake in example (missing commas in IN clause)
+   generateSql( "postgres", fields, {"where": ["=", ["field", 4], 25, 26, 27]})
+   // -> "SELECT * FROM data WHERE date_joined IN (25, 26, 27)"
+8.
